@@ -64,21 +64,15 @@ AM_CXXFLAGS = $(AM_CFLAGS)
 include ../Makefile.sources
 
 noinst_PROGRAMS = builtin_compiler
-noinst_LTLIBRARIES = libglslcore.la libglcpp.la
-
-libglcpp_la_SOURCES =					\
-	$(LIBGLCPP_GENERATED_FILES)			\
-	$(LIBGLCPP_FILES)
-
-libglslcore_la_SOURCES =				\
-	$(BUILTIN_COMPILER_GENERATED_CXX_FILES)		\
-	$(LIBGLSL_FILES)
 
 builtin_compiler_SOURCES = \
 	$(top_srcdir)/src/mesa/main/hash_table.c	\
 	$(top_srcdir)/src/mesa/main/imports.c		\
 	$(top_srcdir)/src/mesa/program/prog_hash_table.c\
 	$(top_srcdir)/src/mesa/program/symbol_table.c	\
+	$(BUILTIN_COMPILER_GENERATED_CXX_FILES)		\
 	$(BUILTIN_COMPILER_CXX_FILES)			\
-	$(GLSL_COMPILER_CXX_FILES)
-builtin_compiler_LDADD = libglslcore.la libglcpp.la
+	$(LIBGLCPP_GENERATED_FILES)			\
+	$(GLSL_COMPILER_CXX_FILES)			\
+	$(LIBGLCPP_FILES)				\
+	$(LIBGLSL_FILES)
