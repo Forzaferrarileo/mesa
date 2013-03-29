@@ -73,14 +73,10 @@ tests_ralloc_test_LDADD =				\
 	$(top_builddir)/src/gtest/libgtest.la		\
 	$(PTHREAD_LIBS)
 
-if CROSS_COMPILING
 libglcpp_la_SOURCES =					\
 	glcpp/glcpp-lex.c				\
 	glcpp/glcpp-parse.c				\
 	$(LIBGLCPP_FILES)
-else
-libglcpp_la_LIBADD = builtin_compiler/libglcpp.la
-endif
 
 glcpp_glcpp_SOURCES =					\
 	glcpp/glcpp.c					\
@@ -89,15 +85,10 @@ glcpp_glcpp_LDADD = libglcpp.la
 
 libglsl_la_SOURCES = builtin_function.cpp
 libglsl_la_LIBADD = libglcpp.la
-if CROSS_COMPILING
 libglsl_la_SOURCES +=					\
 	glsl_lexer.cpp					\
 	glsl_parser.cpp					\
 	$(LIBGLSL_FILES)
-else
-libglsl_la_LIBADD +=					\
-	builtin_compiler/libglslcore.la
-endif
 
 glsl_test_SOURCES = \
 	$(top_srcdir)/src/mesa/main/hash_table.c \
