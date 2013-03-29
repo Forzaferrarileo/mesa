@@ -6,7 +6,13 @@
 
 static void tegra_screen_destroy(struct pipe_screen *pscreen)
 {
+	struct tegra_screen *screen = tegra_screen(pscreen);
+
 	fprintf(stdout, "> %s(pscreen=%p)\n", __func__, pscreen);
+
+	drm_tegra_close(screen->drm);
+	free(screen);
+
 	fprintf(stdout, "< %s()\n", __func__);
 }
 
@@ -676,6 +682,8 @@ struct pipe_screen *tegra_screen_create(struct drm_tegra *drm)
 		fprintf(stdout, "< %s() = NULL\n", __func__);
 		return NULL;
 	}
+
+	screen->drm = drm;
 
 	screen->base.destroy = tegra_screen_destroy;
 	screen->base.get_name = tegra_screen_get_name;
