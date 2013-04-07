@@ -171,7 +171,12 @@ tegra_screen_resource_create(struct pipe_screen *pscreen,
 	resource->bpp = util_format_get_blocksize(template->format);
 	resource->pitch = ALIGN(template->width0, 32);
 
-	flags = DRM_TEGRA_GEM_CREATE_TILED | DRM_TEGRA_GEM_CREATE_BOTTOM_UP;
+	flags = DRM_TEGRA_GEM_CREATE_BOTTOM_UP;
+
+	/* use linear layout for staging-textures, otherwise tiled */
+	if (template->usage != PIPE_USAGE_STAGING)
+		flags |= DRM_TEGRA_GEM_CREATE_TILED;
+
 	size = resource->pitch * resource->bpp * template->height0;
 
 	fprintf(stdout, "  bpp:%u pitch:%u size:%u flags:%x\n", resource->bpp,
